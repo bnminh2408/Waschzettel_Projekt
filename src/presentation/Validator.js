@@ -9,19 +9,19 @@ function Validator(options) {
         }
     }
 
-    var selectorRules = {};
+    let selectorRules = {};
 
     //  Validate function
     function validate(inputElement, rule) {
-        var errorElement = getParent(inputElement, options.formGroupSelector).querySelector(options.errorSelector);
-        var errorMessage;
+        let errorElement = getParent(inputElement, options.formGroupSelector).querySelector(options.errorSelector);
+        let errorMessage;
 
         // rules from selector
-        var rules = selectorRules[rule.selector];
+        let rules = selectorRules[rule.selector];
         
         // check rule 
         // if error stop checking
-        for (var i = 0; i < rules.length; ++i) {
+        for (let i = 0; i < rules.length; ++i) {
             switch (inputElement.type) {
                 case 'radio':
                 case 'checkbox':
@@ -47,17 +47,17 @@ function Validator(options) {
     }
 
     // Get the element of the form to be validated
-    var formElement = document.querySelector(options.form);
+    let formElement = document.querySelector(options.form);
     if (formElement) {
         // submit form
         formElement.onsubmit = function (e) {
             e.preventDefault();
 
-            var isFormValid = true;
+            let isFormValid = true;
 
             options.rules.forEach(function (rule) {
-                var inputElement = formElement.querySelector(rule.selector);
-                var isValid = validate(inputElement, rule);
+                let inputElement = formElement.querySelector(rule.selector);
+                let isValid = validate(inputElement, rule);
                 if (!isValid) {
                     isFormValid = false;
                 }
@@ -66,8 +66,8 @@ function Validator(options) {
             if (isFormValid) {
                 // submit with javascript
                 if (typeof options.onSubmit === 'function') {
-                    var enableInputs = formElement.querySelectorAll('[name]');
-                    var formValues = Array.from(enableInputs).reduce(function (values, input) {
+                    let enableInputs = formElement.querySelectorAll('[name]');
+                    let formValues = Array.from(enableInputs).reduce(function (values, input) {
                         
                         switch(input.type) {
                             case 'radio':
@@ -110,7 +110,7 @@ function Validator(options) {
                 selectorRules[rule.selector] = [rule.test];
             }
 
-            var inputElements = formElement.querySelectorAll(rule.selector);
+            let inputElements = formElement.querySelectorAll(rule.selector);
 
             Array.from(inputElements).forEach(function (inputElement) {
                // Handle blur from input
@@ -120,7 +120,7 @@ function Validator(options) {
 
                 // Process every time the user enters input
                 inputElement.oninput = function () {
-                    var errorElement = getParent(inputElement, options.formGroupSelector).querySelector(options.errorSelector);
+                    let errorElement = getParent(inputElement, options.formGroupSelector).querySelector(options.errorSelector);
                     errorElement.innerText = '';
                     getParent(inputElement, options.formGroupSelector).classList.remove('invalid');
                 } 
@@ -146,7 +146,7 @@ Validator.isEmail = function (selector, message) {
     return {
         selector: selector,
         test: function (value) {
-            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             return regex.test(value) ? undefined :  message || 'Bitte gib eine gültige E-Mail-Adresse ein';
         }
     };
